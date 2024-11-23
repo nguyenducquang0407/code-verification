@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Verification</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Vegan Homemade!</h1>
+        <p>Enter your code below to verify:</p>
+        <form id="codeForm">
+            <input type="text" id="codeInput" placeholder="Enter your code" required>
+            <button type="submit">Submit</button>
+        </form>
+        <p id="errorMessage" class="error"></p>
+    </div>
+    <script>
+        const API_URL = 'https://your-backend-url.onrender.com'; // Replace with your Render backend URL
+
+        document.getElementById('codeForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const codeInput = document.getElementById('codeInput').value.trim();
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.style.display = 'none';
+
+            if (!codeInput) {
+                errorMessage.textContent = 'Please enter a code.';
+                errorMessage.style.display = 'block';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/validate-code`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code: codeInput }),
+                });
+
+                const result = await response.json();
+
+                if (result.valid) {
+                    window.location.href = 'https://veganhomemade.vn';
+                } else {
+                    errorMessage.textContent = result.error || 'Invalid code.';
+                    errorMessage.style.display = 'block';
+                }
+            } catch (error) {
+                errorMessage.textContent = 'An error occurred. Please try again.';
+                errorMessage.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

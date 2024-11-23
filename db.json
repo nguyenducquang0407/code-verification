@@ -1,0 +1,6 @@
+[
+    { "code": "VEGAN123", "used": false },
+    { "code": "HOMEMADE456", "used": false },
+    { "code": "PLANT789", "used": true },
+    { "code": "TESTCODE", "used": false }
+]
